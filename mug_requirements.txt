@@ -1,1 +1,2 @@
 git+http://tanzer.io/git/tanzer.git
+git+https://github.com/ianka/mustache.tcl.git

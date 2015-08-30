@@ -1,6 +1,7 @@
 source mug_autoloader.tcl
 package require tanzer
 package require sqlite3
+package require mustache
 
 set server [::tanzer::server new]
 set ::first_week [clock scan "2015-08-10"]
