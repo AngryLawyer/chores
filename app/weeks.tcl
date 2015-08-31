@@ -4,7 +4,6 @@ namespace eval ::chores::weeks {
 
     variable first_week [clock scan "2015-08-10"]
 
-
     proc get_week_number {first_week current_date} {
         # Work out the number of years since first week
         set first_year [clock format $first_week -format "%Y"]
