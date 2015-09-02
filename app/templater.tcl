@@ -8,11 +8,19 @@ namespace eval ::chores::templater {
         return $file_data
     }
 
-    proc load_template {template_name} {
-        if {dict exists $::chores::templater::templates $template_name} {
-            set $template_data [dict get $::chores::templater::templates $template_name]
+    proc get {template_name} {
+        variable templates
+
+        if {[dict exists $::chores::templater::templates $template_name]} {
+            set template_data [dict get $templates $template_name]
         } else {
+            set template_data [load_template_from_file $template_name]
+            dict set templates $template_name $template_data
         }
         return $template_data
+    }
+
+    proc template {template_name data} {
+        return [::mustache::mustache [get $template_name] $data]
     }
 }

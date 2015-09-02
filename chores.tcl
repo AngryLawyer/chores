@@ -15,10 +15,6 @@ set server [::tanzer::server new]
 
 #sqlite3 db chores.db
 
-set fp [open "./templates/index.html" r]
-set ::file_data [read $fp]
-close $fp
-
 $server route GET / {.*:8080} apply {
     {event session args} {
         if {$event ne "write"} {
@@ -28,7 +24,7 @@ $server route GET / {.*:8080} apply {
         $session response -new [::tanzer::response new 200 {
             Content-Type "text/html"
         }]
-        set output $::file_data
+        set output [::chores::templater::template "./templates/index.html" {}]
         #set output "Current week is [::chores::weeks::get_week_number $::chores::weeks::first_week [clock seconds]]"
         
         $session response buffer $output
