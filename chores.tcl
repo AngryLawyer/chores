@@ -7,7 +7,7 @@ package ifneeded lambda 0 {package provide lambda 0}
 package require tanzer
 package require tanzer::file::handler
 #package require sqlite3
-package require mustache
+package require SimpleTemplater
 
 source [file join [file dirname [info script]] app/chores.tcl]
 
@@ -24,7 +24,7 @@ $server route GET / {.*:8080} apply {
         $session response -new [::tanzer::response new 200 {
             Content-Type "text/html"
         }]
-        set output [::chores::templater::template "./templates/index.html" {}]
+        set output [::chores::pages::landing]
         #set output "Current week is [::chores::weeks::get_week_number $::chores::weeks::first_week [clock seconds]]"
         
         $session response buffer $output

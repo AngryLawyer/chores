@@ -11,16 +11,16 @@ namespace eval ::chores::templater {
     proc get {template_name} {
         variable templates
 
-        if {[dict exists $::chores::templater::templates $template_name]} {
+        if {[dict exists $templates $template_name]} {
             set template_data [dict get $templates $template_name]
         } else {
-            set template_data [load_template_from_file $template_name]
+            set template_data [::SimpleTemplater::compile $template_name]
             dict set templates $template_name $template_data
         }
         return $template_data
     }
 
     proc template {template_name data} {
-        return [::mustache::mustache [get $template_name] $data]
+        return [[get $template_name] execute $data]
     }
 }
