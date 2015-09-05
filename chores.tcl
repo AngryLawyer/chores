@@ -25,7 +25,6 @@ $server route GET / {.*:8080} apply {
             Content-Type "text/html"
         }]
         set output [::chores::pages::landing]
-        #set output "Current week is [::chores::weeks::get_week_number $::chores::weeks::first_week [clock seconds]]"
         
         $session response buffer $output
         $session respond

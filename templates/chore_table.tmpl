@@ -1,0 +1,8 @@
+<table class="table table-striped table-bordered">
+    {% for chore in chore_list %}
+    <tr>
+        <td>{{chore.title}}</td>
+        <td>{{chore.description}}</td>
+    </tr>
+    {% endfor %}
+</table>

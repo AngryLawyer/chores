@@ -1,7 +1,5 @@
 namespace eval ::chores::weeks {
 
-    namespace export get_week_number
-
     variable first_week [clock scan "2015-08-10"]
 
     proc get_week_number {first_week current_date} {
@@ -14,5 +12,13 @@ namespace eval ::chores::weeks {
         set current_week_no [expr [clock format $current_date -format "%V"] + ($year_difference * 52)]
         set current_week_index [expr ($current_week_no - $first_week_no) % 4]
         return [lindex {A B C D} $current_week_index]
+    }
+
+    proc get_day_of_week {current_date} {
+        return [clock format $current_date -format "%A"]
+    }
+
+    proc get_day_of_week_number {current_date} {
+        return [clock format $current_date -format "%u"]
     }
 }
