@@ -32,6 +32,23 @@ $server route GET / {.*:8080} apply {
     }
 }
 
+$server route GET /all/ {.*:8080} apply {
+    {event session args} {
+        if {$event ne "write"} {
+            return
+        }
+        
+        $session response -new [::tanzer::response new 200 {
+            Content-Type "text/html"
+        }]
+        set output [::chores::pages::all]
+        
+        $session response buffer $output
+        $session respond
+        $session nextRequest
+    }
+}
+
 # Static file service
 $server route GET /* {.*} [::tanzer::file::handler new [list \
     root ./static \

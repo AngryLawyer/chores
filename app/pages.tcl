@@ -28,29 +28,14 @@ namespace eval ::chores::pages {
     }
 
     proc chore_table {week_number day_of_week_number} {
-        set chore_list [list \
-            [dict create \
-                title "Wash dishes" \
-                description "Self explanatory" \
-            ] \
-            [dict create \
-                title "Mop floor" \
-                description "Self explanatory" \
-            ] \
-            [dict create \
-                title "Cuddle kitty" \
-                description "Pretty important stuff" \
-            ] \
-        ]
-
         return [::chores::templater::template "./templates/chore_table.tmpl" [dict create \
-            chore_list $chore_list
+            chore_list [::chores::database::chores_for_day $week_number $day_of_week_number]
         ]]
     }
 
     proc base {current_page_url main_content} {
         return [::chores::templater::template "./templates/base.tmpl" [dict create \
-            sidebar [sidebar $current_page_url]\
+            sidebar [sidebar $current_page_url ]\
             content $main_content
         ]]
     }
@@ -66,5 +51,10 @@ namespace eval ::chores::pages {
             chore_table [chore_table $week_number $day_of_week_number]
         ]]
         return [base "/" $content]
+    }
+
+    proc all {} {
+        set content [::chores::templater::template "./templates/all_weeks.tmpl" [::chores::database::all_chores]]
+        return [base "/all/" $content]
     }
 }
