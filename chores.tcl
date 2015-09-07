@@ -8,6 +8,7 @@ package require tanzer
 package require tanzer::file::handler
 #package require sqlite3
 package require SimpleTemplater
+package require underscore
 
 source [file join [file dirname [info script]] app/chores.tcl]
 
