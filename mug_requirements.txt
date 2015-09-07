@@ -1,2 +1,3 @@
 git+http://tanzer.io/git/tanzer.git
-git+https://github.com/cyrilthomas/SimpleTemplater
+git+https://github.com/arthurschreiber/underscore-tcl.git
+git+https://github.com/cyrilthomas/SimpleTemplater.git
