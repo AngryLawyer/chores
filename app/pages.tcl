@@ -55,9 +55,16 @@ namespace eval ::chores::pages {
 
     proc all {} {
         set all_chores [::chores::database::all_chores]
-        set days_of_week [list Monday Tuesday Wednesday Thursday Friday]
+        set days_of_week [list Monday Tuesday Wednesday Thursday Friday Saturday Sunday]
 
-        set content [::chores::templater::template "./templates/all_weeks.tmpl" $all_chores]
+        set chores [dict create \
+            week_a [_::zip $days_of_week [dict get $all_chores week_a]] \
+            week_b [_::zip $days_of_week [dict get $all_chores week_b]] \
+            week_c [_::zip $days_of_week [dict get $all_chores week_c]] \
+            week_d [_::zip $days_of_week [dict get $all_chores week_d]] \
+        ]
+
+        set content [::chores::templater::template "./templates/all_weeks.tmpl" $chores]
         return [base "/all/" $content]
     }
 }

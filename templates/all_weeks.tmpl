@@ -4,9 +4,9 @@
         <table class="table table-striped table-bordered">
             {% for day in week_a %}
             <tr>
-                <td>DAY</td>
+                <td>{{day.0}}</td>
                 <td>
-                    {% for chore in day %}
+                    {% for chore in day.1 %}
                         {{chore.title}} - 
                     {% endfor %}
                 </td>
@@ -19,9 +19,9 @@
         <table class="table table-striped table-bordered">
             {% for day in week_b %}
             <tr>
-                <td>DAY</td>
+                <td>{{day.0}}</td>
                 <td>
-                    {% for chore in day %}
+                    {% for chore in day.1 %}
                         {{chore.title}} - 
                     {% endfor %}
                 </td>
@@ -36,9 +36,9 @@
         <table class="table table-striped table-bordered">
             {% for day in week_c %}
             <tr>
-                <td>DAY</td>
+                <td>{{day.0}}</td>
                 <td>
-                    {% for chore in day %}
+                    {% for chore in day.1 %}
                         {{chore.title}} - 
                     {% endfor %}
                 </td>
@@ -51,9 +51,9 @@
         <table class="table table-striped table-bordered">
             {% for day in week_d %}
             <tr>
-                <td>DAY</td>
+                <td>{{day.0}}</td>
                 <td>
-                    {% for chore in day %}
+                    {% for chore in day.1 %}
                         {{chore.title}} - 
                     {% endfor %}
                 </td>
