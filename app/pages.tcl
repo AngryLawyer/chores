@@ -9,7 +9,7 @@ namespace eval ::chores::pages {
                     active [expr {$current_page_url == "/"}]
                 ]\
                 [dict create\
-                    label "All Chores"\
+                    label "All Weeks"\
                     url "/all/"\
                     active [expr {$current_page_url == "/all/"}]
                 ]\
@@ -54,7 +54,7 @@ namespace eval ::chores::pages {
     }
 
     proc all {} {
-        set all_chores [::chores::database::all_chores]
+        set all_chores [::chores::database::all_weeks]
         set days_of_week [list Monday Tuesday Wednesday Thursday Friday Saturday Sunday]
 
         set chores [dict create \
@@ -66,5 +66,13 @@ namespace eval ::chores::pages {
 
         set content [::chores::templater::template "./templates/all_weeks.tmpl" $chores]
         return [base "/all/" $content]
+    }
+
+    proc chores {} {
+        set context [dict create \
+            chores [::chores::database::all_chores] \
+        ]
+        set content [::chores::templater::template "./templates/chores.tmpl" $context]
+        return [base "/new/" $content]
     }
 }

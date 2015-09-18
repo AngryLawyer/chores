@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-xs-12">
+        <table class="table table-striped table-bordered">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>
+                </th>
+            </tr>
+            {% for chore in chores %}
+            <tr>
+                <td>{{chore.title}}</td>
+                <td>{{chore.description}}</td>
+                <td>
+                    <form class="form-inline">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            <form> 
+                <tr>
+                    <td><input /></td>
+                    <td><textarea></textarea></td>
+                    <td><button class="btn btn-primary">Save</button></td>
+                </tr>
+            </form>
+        </table>
+    </div>
+</div>

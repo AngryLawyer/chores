@@ -1,5 +1,5 @@
 namespace eval ::chores::database {
-    proc chores_for_day {week day} {
+    proc all_chores {} {
         return [list \
             [dict create \
                 title "Wash dishes" \
@@ -16,6 +16,10 @@ namespace eval ::chores::database {
         ]
     }
 
+    proc chores_for_day {week day} {
+        return [all_chores]
+    }
+
     proc chores_for_week {week} {
         return [list \
             [chores_for_day 0 $week] \
@@ -28,7 +32,7 @@ namespace eval ::chores::database {
         ]
     }
 
-    proc all_chores {} {
+    proc all_weeks {} {
         return [dict create \
             week_a [chores_for_week a]\
             week_b [chores_for_week b]\
