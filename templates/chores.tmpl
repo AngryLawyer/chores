@@ -12,16 +12,16 @@
                 <td>{{chore.title}}</td>
                 <td>{{chore.description}}</td>
                 <td>
-                    <form class="form-inline">
+                    <form class="form-inline" method="POST">
                         <button class="btn btn-danger">Delete</button>
                     </form>
                 </td>
             </tr>
             {% endfor %}
-            <form> 
+            <form method="POST"> 
                 <tr>
-                    <td><input /></td>
-                    <td><textarea></textarea></td>
+                    <td><input name="title" /></td>
+                    <td><textarea name="description"></textarea></td>
                     <td><button class="btn btn-primary">Save</button></td>
                 </tr>
             </form>

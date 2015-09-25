@@ -50,20 +50,21 @@ $server route GET /all/ {.*:8080} apply {
     }
 }
 
-$server route GET /new/ {.*:8080} apply {
-    {event session args} {
-        if {$event ne "write"} {
-            return
+$server route GET|POST /new/ {.*:8080} apply {
+    {event session {data ""}} {
+        if {$event eq "read" } {
+            puts [::chores::post::post_data_to_dict $data]
+            # Fish out any data we need
+        } else {
+            $session response -new [::tanzer::response new 200 {
+                Content-Type "text/html"
+            }]
+            set output [::chores::pages::chores]
+            
+            $session response buffer $output
+            $session respond
+            $session nextRequest
         }
-        
-        $session response -new [::tanzer::response new 200 {
-            Content-Type "text/html"
-        }]
-        set output [::chores::pages::chores]
-        
-        $session response buffer $output
-        $session respond
-        $session nextRequest
     }
 }
 
