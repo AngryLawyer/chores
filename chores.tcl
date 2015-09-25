@@ -53,8 +53,9 @@ $server route GET /all/ {.*:8080} apply {
 $server route GET|POST /new/ {.*:8080} apply {
     {event session {data ""}} {
         if {$event eq "read" } {
-            puts [::chores::post::post_data_to_dict $data]
-            # Fish out any data we need
+            if {[[$session request] method] eq "POST"} {
+                set result [::chores::pages::chores_POST [::chores::post::post_data_to_dict $data]]
+            }
         } else {
             $session response -new [::tanzer::response new 200 {
                 Content-Type "text/html"

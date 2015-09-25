@@ -40,4 +40,8 @@ namespace eval ::chores::database {
             week_d [chores_for_week d]\
         ]
     }
+
+    proc new_chore {title description} {
+
+    }
 }
