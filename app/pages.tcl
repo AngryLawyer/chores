@@ -78,16 +78,30 @@ namespace eval ::chores::pages {
     }
 
     proc chores_POST {post_params} {
-        # Validate
-        if {[dict exists $post_params title] eq 0 || [dict get $post_params title] eq {}} {
-            return [dict create status 400 message "Title is required"]
+        # Check type
+        if {[dict exists $post_params type] eq 0} {
+            return [dict create status 400 message "Type is required"]
         }
+        set type [dict get $post_params type]
+        if {$type eq "delete"} {
+            if {[dict exists $post_params id] eq 0 || [dict get $post_params id] eq {}} {
+                return [dict create status 400 message "ID is required"]
+            }
+            # TODO: Actually delete stuff
+            return [dict create status 200 message ""]
+        } elseif {$type eq "create"} {
+            # Validate
+            if {[dict exists $post_params title] eq 0 || [dict get $post_params title] eq {}} {
+                return [dict create status 400 message "Title is required"]
+            }
 
-        if {[dict exists $post_params description] eq 0 || [dict get $post_params description] eq {}} {
-            return [dict create status 400 message "Description is required"]
+            if {[dict exists $post_params description] eq 0 || [dict get $post_params description] eq {}} {
+                return [dict create status 400 message "Description is required"]
+            }
+            # TODO: Actually save stuff
+            return [dict create status 201 message ""]
+        } else {
+            return [dict create status 400 message "Unknown type"]
         }
-        # TODO: Actually save stuff
-        #
-        return [dict create status 201 message ""]
     }
 }

@@ -2,14 +2,17 @@ namespace eval ::chores::database {
     proc all_chores {} {
         return [list \
             [dict create \
+                id 1 \
                 title "Wash dishes" \
                 description "Self explanatory" \
             ] \
             [dict create \
+                id 2 \
                 title "Mop floor" \
                 description "Self explanatory" \
             ] \
             [dict create \
+                id 3 \
                 title "Cuddle kitty" \
                 description "Pretty important stuff" \
             ] \

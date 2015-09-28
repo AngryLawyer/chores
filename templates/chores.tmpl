@@ -18,12 +18,15 @@
                 <td>{{chore.description}}</td>
                 <td>
                     <form class="form-inline" method="POST">
+                        <input type="hidden" name="type" value="delete"/>
+                        <input type="hidden" name="id" value="{{chore.id}}"/>
                         <button class="btn btn-danger">Delete</button>
                     </form>
                 </td>
             </tr>
             {% endfor %}
             <form method="POST"> 
+                <input type="hidden" name="type" value="create"/>
                 <tr>
                     <td><input name="title" /></td>
                     <td><textarea name="description"></textarea></td>
