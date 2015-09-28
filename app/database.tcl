@@ -1,70 +1,46 @@
 namespace eval ::chores::database {
 
-    variable db
     variable dummy 0
-    variable storage [dict create]
+    variable impl
 
     proc init {} {
         variable dummy
+        variable impl
         if {$dummy eq 0} {
-            package require sqlite3
-            sqlite3 db chores.db
+            set impl ::chores::database::sqlite
+        } else {
+            set impl ::chores::database::dummy
         }
+        [join [list $impl ::init] ""]
     }
 
     proc shutdown {} {
-        variable dummy
-        if {$dummy eq 0} {
-            db close
-        }
+        variable impl
+        [join [list $impl ::shutdown] ""]
     }
 
     proc all_chores {} {
-        return [list \
-            [dict create \
-                id 1 \
-                title "Wash dishes" \
-                description "Self explanatory" \
-            ] \
-            [dict create \
-                id 2 \
-                title "Mop floor" \
-                description "Self explanatory" \
-            ] \
-            [dict create \
-                id 3 \
-                title "Cuddle kitty" \
-                description "Pretty important stuff" \
-            ] \
-        ]
+        variable impl
+        [join [list $impl ::all_chores] ""]
     }
 
     proc chores_for_day {week day} {
-        return [all_chores]
+        variable impl
+        [join [list $impl ::chores_for_day] ""] $week $day
     }
 
     proc chores_for_week {week} {
-        return [list \
-            [chores_for_day 0 $week] \
-            [chores_for_day 1 $week] \
-            [chores_for_day 2 $week] \
-            [chores_for_day 3 $week] \
-            [chores_for_day 4 $week] \
-            [chores_for_day 5 $week] \
-            [chores_for_day 6 $week] \
-        ]
+        variable impl
+        [join [list $impl ::chores_for_week] ""] $week
     }
 
     proc all_weeks {} {
-        return [dict create \
-            week_a [chores_for_week a]\
-            week_b [chores_for_week b]\
-            week_c [chores_for_week c]\
-            week_d [chores_for_week d]\
-        ]
+        variable impl
+        [join [list $impl ::all_weeks]]
     }
 
     proc new_chore {title description} {
-
+        variable impl
+        [join [list $impl ::all_weeks]] $title $description
     }
 }

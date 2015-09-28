@@ -17,11 +17,6 @@ namespace eval ::chores::pages {
                     label "New Chores"\
                     url "/new/"\
                     active [expr {$current_page_url == "/new/"}]
-                ]\
-                [dict create\
-                    label "Manage Days"\
-                    url "/manage/"\
-                    active [expr {$current_page_url == "/manage/"}]
                 ]
             ]
         ]]
