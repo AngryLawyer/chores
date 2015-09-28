@@ -1,4 +1,24 @@
 namespace eval ::chores::database {
+
+    variable db
+    variable dummy 0
+    variable storage [dict create]
+
+    proc init {} {
+        variable dummy
+        if {$dummy eq 0} {
+            package require sqlite3
+            sqlite3 db chores.db
+        }
+    }
+
+    proc shutdown {} {
+        variable dummy
+        if {$dummy eq 0} {
+            db close
+        }
+    }
+
     proc all_chores {} {
         return [list \
             [dict create \

@@ -1,20 +1,16 @@
 source mug_autoloader.tcl
 
-
-# Fake the existence of lambda
-package ifneeded lambda 0 {package provide lambda 0}
-
 package require tanzer
 package require tanzer::file::handler
-#package require sqlite3
 package require SimpleTemplater
 package require underscore
 
 source [file join [file dirname [info script]] app/chores.tcl]
 
-set server [::tanzer::server new]
+set ::chores::database::dummy 1
+::chores::database::init
 
-#sqlite3 db chores.db
+set server [::tanzer::server new]
 
 $server route GET / {.*:8080} apply {
     {event session args} {
@@ -80,5 +76,4 @@ $server route GET /* {.*} [::tanzer::file::handler new [list \
 ]]
 
 $server listen 8080
-
-#db close
+::chores::database::shutdown
