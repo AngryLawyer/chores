@@ -68,11 +68,26 @@ namespace eval ::chores::pages {
         return [base "/all/" $content]
     }
 
-    proc chores {} {
+    proc chores {message} {
         set context [dict create \
             chores [::chores::database::all_chores] \
+            message $message
         ]
         set content [::chores::templater::template "./templates/chores.tmpl" $context]
         return [base "/new/" $content]
+    }
+
+    proc chores_POST {post_params} {
+        # Validate
+        if {[dict exists $post_params title] eq 0 || [dict get $post_params title] eq {}} {
+            return [dict create status 400 message "Title is required"]
+        }
+
+        if {[dict exists $post_params description] eq 0 || [dict get $post_params description] eq {}} {
+            return [dict create status 400 message "Description is required"]
+        }
+        # TODO: Actually save stuff
+        #
+        return [dict create status 201 message ""]
     }
 }
