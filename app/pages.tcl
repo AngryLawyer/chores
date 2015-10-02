@@ -71,45 +71,44 @@ namespace eval ::chores::pages {
         return [::chores::templater::template "./templates/week.tmpl" $context]
     }
 
-    proc chores {message} {
+    proc chores {form} {
         set context [dict create \
             chores [::chores::database::all_chores] \
-            message $message
+            form $form
         ]
         set content [::chores::templater::template "./templates/chores.tmpl" $context]
         return [base "/new/" $content]
     }
 
     proc chores_POST {post_params} {
-        puts [::chores::forms::validate [dict create \
-            type required \
-            id required
-        ] $post_params]
-
         # Check type
         if {[dict exists $post_params type] eq 0} {
-            return [dict create status 400 message "Type is required"]
+            return [dict create status 400 form {}]
         }
         set type [dict get $post_params type]
         if {$type eq "delete"} {
-            if {[dict exists $post_params id] eq 0 || [dict get $post_params id] eq {}} {
-                return [dict create status 400 message "ID is required"]
+            set form [::chores::forms::validate [dict create \
+                id required \
+            ] $post_params]
+            if {[dict get $form is_valid] eq 0} {
+                return [dict create status 400 form $form]
+            } else {
+                # TODO: Actually delete stuff
+                return [dict create status 200 form {}]
             }
-            # TODO: Actually delete stuff
-            return [dict create status 200 message ""]
         } elseif {$type eq "create"} {
-            # Validate
-            if {[dict exists $post_params title] eq 0 || [dict get $post_params title] eq {}} {
-                return [dict create status 400 message "Title is required"]
+            set form [::chores::forms::validate [dict create \
+                title required \
+                description required \
+            ] $post_params]
+            if {[dict get $form is_valid] eq 0} {
+                return [dict create status 400 form $form]
+            } else {
+                # TODO: Actually save stuff
+                return [dict create status 201 form {}]
             }
-
-            if {[dict exists $post_params description] eq 0 || [dict get $post_params description] eq {}} {
-                return [dict create status 400 message "Description is required"]
-            }
-            # TODO: Actually save stuff
-            return [dict create status 201 message ""]
         } else {
-            return [dict create status 400 message "Unknown type"]
+            return [dict create status 400 form {}]
         }
     }
 }

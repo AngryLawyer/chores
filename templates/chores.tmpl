@@ -1,8 +1,4 @@
-{% if message %}
-<div class="row">
-    <div class="col-xs-12 alert alert-danger" role="alert">{{message}}</div>
-</div>
-{% endif %}
+{{ form.form_data.title.value }}
 <div class="row">
     <div class="col-xs-12">
         <table class="table table-striped table-bordered">
@@ -28,8 +24,15 @@
             <form method="POST"> 
                 <input type="hidden" name="type" value="create"/>
                 <tr>
-                    <td><input name="title" /></td>
-                    <td><textarea name="description"></textarea></td>
+                    <td>
+                        <input name="title" value="{{ form.form_data.title.value }}"/>
+                        {% if form %}
+                            {% if not form.form_data.title.is_valid %}
+                                INVALID
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                    <td><textarea name="description">{{ form.form_data.description.value }}</textarea></td>
                     <td><button class="btn btn-primary">Save</button></td>
                 </tr>
             </form>

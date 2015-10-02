@@ -52,16 +52,16 @@ $server route GET|POST /new/ {.*:8080} apply {
             if {[[$session request] method] eq "POST"} {
                 set result [::chores::pages::chores_POST [::chores::post::post_data_to_dict $data]]
                 $session store status [dict get $result status]
-                $session store message [dict get $result message]
+                $session store form [dict get $result form]
             } else {
                 $session store status 200
-                $session store message ""
+                $session store form {}
             }
         } else {
             $session response -new [::tanzer::response new [$session store status] {
                 Content-Type "text/html"
             }]
-            set output [::chores::pages::chores [$session store message]]
+            set output [::chores::pages::chores [$session store form]]
             
             $session response buffer $output
             $session respond
