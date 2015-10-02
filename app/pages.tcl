@@ -81,6 +81,11 @@ namespace eval ::chores::pages {
     }
 
     proc chores_POST {post_params} {
+        puts [::chores::forms::validate [dict create \
+            type required \
+            id required
+        ] $post_params]
+
         # Check type
         if {[dict exists $post_params type] eq 0} {
             return [dict create status 400 message "Type is required"]
