@@ -3,6 +3,10 @@ namespace eval ::chores::database {
     variable dummy 0
     variable impl
 
+    proc delegate {impl method} {
+        return [join [list $impl :: $method] ""]
+    }
+
     proc init {} {
         variable dummy
         variable impl
@@ -11,36 +15,41 @@ namespace eval ::chores::database {
         } else {
             set impl ::chores::database::dummy
         }
-        [join [list $impl ::init] ""]
+        [delegate $impl init]
     }
 
     proc shutdown {} {
         variable impl
-        [join [list $impl ::shutdown] ""]
+        [delegate $impl shutdown]
     }
 
     proc all_chores {} {
         variable impl
-        [join [list $impl ::all_chores] ""]
+        [delegate $impl all_chores]
     }
 
     proc chores_for_day {week day} {
         variable impl
-        [join [list $impl ::chores_for_day] ""] $week $day
+        [delegate $impl chores_for_day] $week $day
     }
 
     proc chores_for_week {week} {
         variable impl
-        [join [list $impl ::chores_for_week] ""] $week
+        [delegate $impl chores_for_week] $week
     }
 
     proc all_weeks {} {
         variable impl
-        [join [list $impl ::all_weeks]]
+        [delegate $impl all_weeks]
+    }
+
+    proc delete_chore {id} {
+        variable impl
+        [delegate $impl delete_chore] $id
     }
 
     proc new_chore {title description} {
         variable impl
-        [join [list $impl ::all_weeks]] $title $description
+        [delegate $impl new_chore] $title $description
     }
 }

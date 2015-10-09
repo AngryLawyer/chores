@@ -1,5 +1,8 @@
 namespace eval ::chores::database::dummy {
-    variable store [dict create]
+    variable store [dict create \
+        chores [list] \
+    ]
+    variable last_id 0
 
     proc init {} {
     }
@@ -8,23 +11,8 @@ namespace eval ::chores::database::dummy {
     }
 
     proc all_chores {} {
-        return [list \
-            [dict create \
-                id 1 \
-                title "Wash dishes" \
-                description "Self explanatory" \
-            ] \
-            [dict create \
-                id 2 \
-                title "Mop floor" \
-                description "Self explanatory" \
-            ] \
-            [dict create \
-                id 3 \
-                title "Cuddle kitty" \
-                description "Pretty important stuff" \
-            ] \
-        ]
+        variable store
+        dict get $store chores
     }
 
     proc chores_for_day {week day} {
@@ -53,5 +41,20 @@ namespace eval ::chores::database::dummy {
     }
 
     proc new_chore {title description} {
+        variable last_id
+        variable store
+        dict lappend store chores [dict create \
+            id $last_id \
+            title $title \
+            description $description \
+        ]
+
+        puts "$title and $description $last_id"
+        incr last_id
+    }
+
+    proc delete_chore {id} {
+        variable store
+        puts $id
     }
 }

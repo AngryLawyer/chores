@@ -93,7 +93,7 @@ namespace eval ::chores::pages {
             if {[dict get $form is_valid] eq 0} {
                 return [dict create status 400 form $form]
             } else {
-                # TODO: Actually delete stuff
+                ::chores::database::delete_chore [dict get $form form_data id value]
                 return [dict create status 200 form {}]
             }
         } elseif {$type eq "create"} {
@@ -104,7 +104,7 @@ namespace eval ::chores::pages {
             if {[dict get $form is_valid] eq 0} {
                 return [dict create status 400 form $form]
             } else {
-                # TODO: Actually save stuff
+                ::chores::database::new_chore [dict get $form form_data title value] [dict get $form form_data description value]
                 return [dict create status 201 form {}]
             }
         } else {
