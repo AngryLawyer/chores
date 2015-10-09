@@ -55,6 +55,11 @@ namespace eval ::chores::database::dummy {
 
     proc delete_chore {id} {
         variable store
-        puts $id
+        set chores [dict get $store chores]
+        set chores [_::reject $chores {{chore} {
+            upvar id id
+            return [expr [dict get $chore id] == $id]
+        }}]
+        dict set store chores $chores
     }
 }
