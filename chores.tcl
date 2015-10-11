@@ -29,20 +29,27 @@ $server route GET / {.*:8080} apply {
     }
 }
 
-$server route GET /all/ {.*:8080} apply {
-    {event session args} {
-        if {$event ne "write"} {
-            return
+$server route GET|POST /all/ {.*:8080} apply {
+    {event session {data ""}} {
+        if {$event eq "read"} {
+            if {[[$session request] method] eq "POST"} {
+                set result [::chores::pages::all_POST [::chores::post::post_data_to_dict $data]]
+                $session store status [dict get $result status]
+                $session store form [dict get $result form]
+            } else {
+                $session store status 200
+                $session store form {}
+            }
+        } else {
+            $session response -new [::tanzer::response new 200 {
+                Content-Type "text/html"
+            }]
+            set output [::chores::pages::all [$session store form]]
+            
+            $session response buffer $output
+            $session respond
+            $session nextRequest
         }
-        
-        $session response -new [::tanzer::response new 200 {
-            Content-Type "text/html"
-        }]
-        set output [::chores::pages::all]
-        
-        $session response buffer $output
-        $session respond
-        $session nextRequest
     }
 }
 

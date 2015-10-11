@@ -48,13 +48,47 @@ namespace eval ::chores::pages {
         return [base "/" $content]
     }
 
-    proc all {} {
+    proc all_POST {post_params} {
+        # Check type
+        if {[dict exists $post_params type] eq 0} {
+            return [dict create status 400 form {}]
+        }
+        set type [dict get $post_params type]
+        if {$type eq "delete"} {
+            #set form [::chores::forms::validate [dict create \
+            #    id required \
+            #] $post_params]
+            #if {[dict get $form is_valid] eq 0} {
+            #    return [dict create status 400 form $form]
+            #} else {
+            #    ::chores::database::delete_chore [dict get $form form_data id value]
+            #    return [dict create status 200 form {}]
+            #}
+        } elseif {$type eq "create"} {
+            set form [::chores::forms::validate [dict create \
+                chore required \
+                week required \
+                day required \
+            ] $post_params]
+            if {[dict get $form is_valid] eq 0} {
+                return [dict create status 400 form $form]
+            } else {
+                ::chores::database::add_chore_to_day [dict get $form form_data title day] [dict get $form form_data description week] [dict get $form form_data description chorvaluee]
+                return [dict create status 201 form {}]
+            }
+        } else {
+            return [dict create status 400 form {}]
+        }
+    }
+
+    proc all {form} {
+        set all_chores [::chores::database::all_chores]
         set chores [dict create \
             weeks [list \
-                [week A] \
-                [week B] \
-                [week C] \
-                [week D] \
+                [week A $all_chores] \
+                [week B $all_chores] \
+                [week C $all_chores] \
+                [week D $all_chores] \
             ] \
         ]
 
@@ -62,11 +96,12 @@ namespace eval ::chores::pages {
         return [base "/all/" $content]
     }
 
-    proc week {letter} {
+    proc week {letter all_chores} {
         set days_of_week [list Monday Tuesday Wednesday Thursday Friday Saturday Sunday]
         set context [dict create \
             chores [_::zip $days_of_week [::chores::database::chores_for_week $letter]] \
-            letter $letter
+            all_chores $all_chores \
+            letter $letter \
         ]
         return [::chores::templater::template "./templates/week.tmpl" $context]
     }
