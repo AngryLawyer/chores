@@ -55,7 +55,36 @@ namespace eval ::chores::database::dummy {
             week_a [chores_for_week A]\
             week_b [chores_for_week C]\
             week_c [chores_for_week C]\
-            week_d [chores_for_week D]\
+            week_d [chores_for_week D]
+    }
+
+    proc remove_chore_from_day {day week link_id} {
+        variable store
+        set week_data [dict get $store weeks $week]
+        set day_data [lindex $week_data $day]
+
+        set day_data [_::reject $day_data {{item} {
+            upvar link_id link_id
+            expr {[dict get $item id] == $link_id}
+        }}]
+
+        lset week_data $day $day_data
+        dict set store weeks $week $week_data
+    }
+
+    proc remove_chore_from_all_days {chore_id} {
+        variable store
+        set weeks [dict get $store weeks]
+        dict for {key week} $weeks {
+            dict set weeks $key [_::map $week {{day} {
+                upvar chore_id chore_id
+                _::reject $day {{item} {
+                    upvar chore_id chore_id
+                    expr {[dict get $item chore_id] == $chore_id}
+                }}
+            }}]
+        }
+        dict set store weeks $weeks
     }
 
     proc add_chore_to_day {day week chore_id} {
@@ -91,8 +120,9 @@ namespace eval ::chores::database::dummy {
         set chores [dict get $store chores]
         set chores [_::reject $chores {{chore} {
             upvar id id
-            return [expr [dict get $chore id] == $id]
+            expr [dict get $chore id] == $id
         }}]
         dict set store chores $chores
+        remove_chore_from_all_days $id
     }
 }

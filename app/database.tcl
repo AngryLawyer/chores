@@ -53,6 +53,16 @@ namespace eval ::chores::database {
         [delegate $impl add_chore_to_day] $day $week $chore_id
     }
 
+    proc remove_chore_from_day {day week chore_id} {
+        variable impl
+        [delegate $impl remove_chore_from_day] $day $week $chore_id
+    }
+
+    proc remove_chore_from_all_days {chore_id} {
+        variable impl
+        [delegate $impl remove_chore_from_all_days $chore_id
+    }
+
     proc new_chore {title description} {
         variable impl
         [delegate $impl new_chore] $title $description
