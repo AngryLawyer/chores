@@ -7,6 +7,8 @@ package require underscore
 
 source [file join [file dirname [info script]] app/chores.tcl]
 
+::chores::templater::init
+
 set ::chores::database::dummy 1
 ::chores::database::init
 

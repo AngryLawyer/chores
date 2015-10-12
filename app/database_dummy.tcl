@@ -27,14 +27,15 @@ namespace eval ::chores::database::dummy {
         set day_data [lindex $week_data $day]
         set all_chores [dict get $store chores]
 
-        set chores [_::map $day_data {{chore_id} {
+        _::map $day_data {{day_chore} {
             upvar all_chores all_chores
+            set chore_id [dict get $day_chore chore_id]
             _::find $all_chores {{chore} {
                 upvar chore_id chore_id
+                puts $chore
                 expr {[dict get $chore id] == $chore_id}
             }}
-        }}]
-        return $chores
+        }}
     }
 
     proc chores_for_week {week} {
@@ -50,12 +51,11 @@ namespace eval ::chores::database::dummy {
     }
 
     proc all_weeks {} {
-        return [dict create \
+        dict create \
             week_a [chores_for_week A]\
             week_b [chores_for_week C]\
             week_c [chores_for_week C]\
             week_d [chores_for_week D]\
-        ]
     }
 
     proc add_chore_to_day {day week chore_id} {
@@ -68,6 +68,8 @@ namespace eval ::chores::database::dummy {
             id $last_id \
             chore_id $chore_id \
         ]
+
+        lset week_data $day $day_data
         dict set store weeks $week $week_data
         incr last_id
     }
@@ -81,7 +83,6 @@ namespace eval ::chores::database::dummy {
             description $description \
         ]
 
-        puts "$title and $description $last_id"
         incr last_id
     }
 

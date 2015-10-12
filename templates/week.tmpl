@@ -13,7 +13,7 @@
                         <form method="POST">
                             <input type="hidden" name="type" value="create" />
                             <input type="hidden" name="week" value="{{letter}}" />
-                            <input type="hidden" name="day" value="{{loop.count}}" />
+                            <input type="hidden" name="day" value="{{loop.count|subtract:"1"}}" />
                             <select name="chore">
                                 <option value="">Select...</option>
                                 {% for chore in all_chores %}

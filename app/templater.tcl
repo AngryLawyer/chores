@@ -1,6 +1,14 @@
 namespace eval ::chores::templater {
     variable templates [dict create]
 
+    proc filter_subtract {context args} {
+        expr { $context - [lindex $args 0] }
+    }
+
+    proc init {} {
+        ::SimpleTemplater::registerFilter -filter subtract -proc ::chores::templater::filter_subtract
+    }
+
     proc load_template_from_file {template_name} {
         set fp [open $template_name r]
         set file_data [read $fp]

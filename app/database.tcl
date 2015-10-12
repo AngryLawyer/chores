@@ -48,6 +48,11 @@ namespace eval ::chores::database {
         [delegate $impl delete_chore] $id
     }
 
+    proc add_chore_to_day {day week chore_id} {
+        variable impl
+        [delegate $impl add_chore_to_day] $day $week $chore_id
+    }
+
     proc new_chore {title description} {
         variable impl
         [delegate $impl new_chore] $title $description

@@ -23,16 +23,17 @@ namespace eval ::chores::pages {
     }
 
     proc chore_table {week_number day_of_week_number} {
-        return [::chores::templater::template "./templates/chore_table.tmpl" [dict create \
+        puts "$week_number $day_of_week_number"
+        ::chores::templater::template "./templates/chore_table.tmpl" [dict create \
             chore_list [::chores::database::chores_for_day $week_number $day_of_week_number]
-        ]]
+        ]
     }
 
     proc base {current_page_url main_content} {
-        return [::chores::templater::template "./templates/base.tmpl" [dict create \
+        ::chores::templater::template "./templates/base.tmpl" [dict create \
             sidebar [sidebar $current_page_url ]\
             content $main_content
-        ]]
+        ]
     }
 
     proc landing {} {
@@ -73,7 +74,7 @@ namespace eval ::chores::pages {
             if {[dict get $form is_valid] eq 0} {
                 return [dict create status 400 form $form]
             } else {
-                ::chores::database::add_chore_to_day [dict get $form form_data title day] [dict get $form form_data description week] [dict get $form form_data description chorvaluee]
+                ::chores::database::add_chore_to_day [dict get $form form_data day value] [dict get $form form_data week value] [dict get $form form_data chore value]
                 return [dict create status 201 form {}]
             }
         } else {
