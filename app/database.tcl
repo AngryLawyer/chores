@@ -53,9 +53,9 @@ namespace eval ::chores::database {
         [delegate $impl add_chore_to_day] $day $week $chore_id
     }
 
-    proc remove_chore_from_day {day week chore_id} {
+    proc remove_chore_from_day {link_id} {
         variable impl
-        [delegate $impl remove_chore_from_day] $day $week $chore_id
+        [delegate $impl remove_chore_from_day] $link_id
     }
 
     proc remove_chore_from_all_days {chore_id} {

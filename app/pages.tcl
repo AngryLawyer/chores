@@ -56,15 +56,15 @@ namespace eval ::chores::pages {
         }
         set type [dict get $post_params type]
         if {$type eq "delete"} {
-            #set form [::chores::forms::validate [dict create \
-            #    id required \
-            #] $post_params]
-            #if {[dict get $form is_valid] eq 0} {
-            #    return [dict create status 400 form $form]
-            #} else {
-            #    ::chores::database::delete_chore [dict get $form form_data id value]
-            #    return [dict create status 200 form {}]
-            #}
+            set form [::chores::forms::validate [dict create \
+                id required \
+            ] $post_params]
+            if {[dict get $form is_valid] eq 0} {
+                return [dict create status 400 form $form]
+            } else {
+                ::chores::database::remove_chore_from_day [dict get $form form_data id value]
+                return [dict create status 200 form {}]
+            }
         } elseif {$type eq "create"} {
             set form [::chores::forms::validate [dict create \
                 chore required \
