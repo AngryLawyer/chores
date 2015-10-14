@@ -12,9 +12,10 @@ source [file join [file dirname [info script]] app/chores.tcl]
 set ::chores::database::dummy 1
 ::chores::database::init
 
+set port 8081
 set server [::tanzer::server new]
 
-$server route GET / {.*:8080} apply {
+$server route GET / {.*} apply {
     {event session args} {
         if {$event ne "write"} {
             return
@@ -31,7 +32,7 @@ $server route GET / {.*:8080} apply {
     }
 }
 
-$server route GET|POST /all/ {.*:8080} apply {
+$server route GET|POST /all/ {.*} apply {
     {event session {data ""}} {
         if {$event eq "read"} {
             if {[[$session request] method] eq "POST"} {
@@ -55,7 +56,7 @@ $server route GET|POST /all/ {.*:8080} apply {
     }
 }
 
-$server route GET|POST /new/ {.*:8080} apply {
+$server route GET|POST /new/ {.*} apply {
     {event session {data ""}} {
         if {$event eq "read" } {
             if {[[$session request] method] eq "POST"} {
@@ -84,5 +85,6 @@ $server route GET /* {.*} [::tanzer::file::handler new [list \
     root ./static \
 ]]
 
-$server listen 8080
+puts $port
+$server listen $port
 ::chores::database::shutdown
