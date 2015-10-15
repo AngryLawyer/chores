@@ -1,17 +1,15 @@
 namespace eval ::chores::database {
 
     variable dummy 0
-    variable path {}
     variable impl
 
     proc delegate {impl method} {
         return [join [list $impl :: $method] ""]
     }
 
-    proc init {} {
+    proc init {path} {
         variable dummy
         variable impl
-        variable path
         if {$dummy eq 0} {
             set impl ::chores::database::sqlite
         } else {

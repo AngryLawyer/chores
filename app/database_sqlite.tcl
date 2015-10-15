@@ -4,6 +4,7 @@ namespace eval ::chores::database::sqlite {
     proc init {path} {
         variable db
         package require sqlite3
+        puts $path
         sqlite3 db $path -create 0
     }
 
@@ -15,8 +16,8 @@ namespace eval ::chores::database::sqlite {
     proc all_chores {} {
         variable db
         set output [list]
-        db eval { SELECT (id, title, description) FROM chores } {
-            lappend output [dict \
+        db eval { SELECT id, title, description FROM chores; } {
+            lappend output [dict create \
                 id $id \
                 title $title \
                 description $description \
@@ -51,7 +52,7 @@ namespace eval ::chores::database::sqlite {
 
     proc new_chore {title description} {
         variable db
-        db eval { INSERT INTO chores (title, description) VALUES (:title, :description}
+        db eval { INSERT INTO chores (title, description) VALUES (:title, :description);}
     }
 
     proc delete_chore {id} {

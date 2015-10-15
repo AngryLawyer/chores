@@ -21,7 +21,7 @@ if {$argc > 1} {
     set ::chores::database::dummy 1
 }
 
-::chores::database::init
+::chores::database::init $database
 
 
 set server [::tanzer::server new]
