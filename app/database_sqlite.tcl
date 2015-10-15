@@ -1,10 +1,10 @@
 namespace eval ::chores::database::sqlite {
     variable db
 
-    proc init {} {
+    proc init {path} {
         variable db
         package require sqlite3
-        sqlite3 db chores.db
+        sqlite3 db $path -create 0
     }
 
     proc shutdown {} {

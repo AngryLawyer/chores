@@ -10,7 +10,7 @@ namespace eval ::chores::database::dummy {
     ]
     variable last_id 0
 
-    proc init {} {
+    proc init {path} {
     }
 
     proc shutdown {} {

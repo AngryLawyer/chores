@@ -9,10 +9,21 @@ source [file join [file dirname [info script]] app/chores.tcl]
 
 ::chores::templater::init
 
-set ::chores::database::dummy 1
+set port 8081
+set database {}
+
+if {$argc > 0} {
+    set port [lindex $argv 0]
+}
+if {$argc > 1} {
+    set database [lindex $argv 1]
+} else {
+    set ::chores::database::dummy 1
+}
+
 ::chores::database::init
 
-set port 8081
+
 set server [::tanzer::server new]
 
 $server route GET / {.*} apply {

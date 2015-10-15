@@ -1,6 +1,7 @@
 namespace eval ::chores::database {
 
     variable dummy 0
+    variable path {}
     variable impl
 
     proc delegate {impl method} {
@@ -10,12 +11,13 @@ namespace eval ::chores::database {
     proc init {} {
         variable dummy
         variable impl
+        variable path
         if {$dummy eq 0} {
             set impl ::chores::database::sqlite
         } else {
             set impl ::chores::database::dummy
         }
-        [delegate $impl init]
+        [delegate $impl init] $path
     }
 
     proc shutdown {} {
