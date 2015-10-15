@@ -32,7 +32,6 @@ namespace eval ::chores::database::dummy {
             set chore_id [dict get $day_chore chore_id]
             set chore [_::find $all_chores {{chore} {
                 upvar chore_id chore_id
-                puts $chore
                 expr {[dict get $chore id] == $chore_id}
             }}]
             dict set chore link_id [dict get $day_chore id]

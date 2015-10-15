@@ -96,6 +96,5 @@ $server route GET /* {.*} [::tanzer::file::handler new [list \
     root ./static \
 ]]
 
-puts $port
 $server listen $port
 ::chores::database::shutdown

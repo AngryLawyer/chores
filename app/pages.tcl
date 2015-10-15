@@ -23,7 +23,6 @@ namespace eval ::chores::pages {
     }
 
     proc chore_table {week_number day_of_week_number} {
-        puts "$week_number $day_of_week_number"
         ::chores::templater::template "./templates/chore_table.tmpl" [dict create \
             chore_list [::chores::database::chores_for_day $week_number $day_of_week_number]
         ]
@@ -84,12 +83,13 @@ namespace eval ::chores::pages {
 
     proc all {form} {
         set all_chores [::chores::database::all_chores]
+        set chore_links [::chores::database::all_weeks]
         set chores [dict create \
             weeks [list \
-                [week A $all_chores] \
-                [week B $all_chores] \
-                [week C $all_chores] \
-                [week D $all_chores] \
+                [week A $all_chores [dict get $chore_links A]] \
+                [week B $all_chores [dict get $chore_links B]] \
+                [week C $all_chores [dict get $chore_links C]] \
+                [week D $all_chores [dict get $chore_links D]] \
             ] \
         ]
 
@@ -97,10 +97,10 @@ namespace eval ::chores::pages {
         return [base "/all/" $content]
     }
 
-    proc week {letter all_chores} {
+    proc week {letter all_chores chores_for_week} {
         set days_of_week [list Monday Tuesday Wednesday Thursday Friday Saturday Sunday]
         set context [dict create \
-            chores [_::zip $days_of_week [::chores::database::chores_for_week $letter]] \
+            chores [_::zip $days_of_week $chores_for_week] \
             all_chores $all_chores \
             letter $letter \
         ]

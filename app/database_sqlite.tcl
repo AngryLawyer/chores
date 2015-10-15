@@ -4,7 +4,6 @@ namespace eval ::chores::database::sqlite {
     proc init {path} {
         variable db
         package require sqlite3
-        puts $path
         sqlite3 db $path -create 0
     }
 
@@ -28,6 +27,14 @@ namespace eval ::chores::database::sqlite {
 
     proc chores_for_day {week day} {
         variable db
+        set output [list]
+        db eval { SELECT c.title, c.description FROM chore_for_day AS cd INNER JOIN chores AS c ON cd.chore_id = c.id WHERE cd.week = :week AND cd.day = :day; } {
+            lappend output [dict create \
+                title $title \
+                description $description \
+            ]
+        }
+        return $output
     }
 
     proc chores_for_week {week} {
@@ -37,6 +44,27 @@ namespace eval ::chores::database::sqlite {
 
     proc all_weeks {} {
         variable db
+        set output [dict create \
+            A [list [list] [list] [list] [list] [list] [list] [list]] \
+            B [list [list] [list] [list] [list] [list] [list] [list]] \
+            C [list [list] [list] [list] [list] [list] [list] [list]] \
+            D [list [list] [list] [list] [list] [list] [list] [list]] \
+        ]
+
+        db eval { SELECT c.title, c.description, cd.week, cd.day, cd.id AS link_id FROM chore_for_day AS cd INNER JOIN chores AS c ON cd.chore_id = c.id; } {
+            set week_data [dict get $output $week]
+            set day_data [lindex $week_data $day]
+
+            lappend day_data [dict create \
+                title $title \
+                description $description \
+                link_id $link_id
+            ]
+
+            lset week_data $day $day_data
+            dict set output $week $week_data
+        }
+        return $output
     }
 
     proc remove_chore_from_day {link_id} {
