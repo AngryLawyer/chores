@@ -1,4 +1,4 @@
-set path [lindex $argv 1]
+set path [lindex $argv 0]
 
 package require sqlite3
 sqlite3 db $path
