@@ -13,7 +13,7 @@ db eval {CREATE TABLE chore_for_day (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     chore_id INTEGER NOT NULL,
     week CHAR(1) NOT NULL,
-    DAY INT NOT NULL
+    day INT NOT NULL
 );}
 
 db close

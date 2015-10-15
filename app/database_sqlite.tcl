@@ -32,6 +32,7 @@ namespace eval ::chores::database::sqlite {
 
     proc chores_for_week {week} {
         variable db
+        # Unused
     }
 
     proc all_weeks {} {
@@ -40,22 +41,27 @@ namespace eval ::chores::database::sqlite {
 
     proc remove_chore_from_day {link_id} {
         variable db
+        db eval { DELETE FROM chore_for_day WHERE id = :link_id; }
     }
 
     proc remove_chore_from_all_days {chore_id} {
         variable db
+        db eval { DELETE FROM chore_for_day WHERE chore_id = :chore_id; }
     }
 
     proc add_chore_to_day {day week chore_id} {
         variable db
+        db eval { INSERT INTO chore_for_day (chore_id, week, day) VALUES (:chore_id, :week, :day); }
     }
 
     proc new_chore {title description} {
         variable db
-        db eval { INSERT INTO chores (title, description) VALUES (:title, :description);}
+        db eval { INSERT INTO chores (title, description) VALUES (:title, :description); }
     }
 
     proc delete_chore {id} {
         variable db
+        remove_chore_from_all_days $id
+        db eval { DELETE FROM chores WHERE id = :id; }
     }
 }
