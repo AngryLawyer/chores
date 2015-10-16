@@ -41,42 +41,42 @@ namespace eval ::chores::printer {
 
     proc bold_off {} {
         variable _ESC
-        write [$_ESC]
+        write $_ESC
         write [char 69]
         write [char 0]
     }
     
     proc bold_on {} {
         variable _ESC
-        write [$_ESC]
+        write $_ESC
         write [char 69]
         write [char 1]
     }
 
     proc font_b_off {} {
         variable _ESC
-        write [$_ESC]
+        write $_ESC
         write [char 33]
         write [char 0]
     }
     
     proc font_b_on {} {
         variable _ESC
-        write [$_ESC]
+        write $_ESC
         write [char 33]
         write [char 1]
     }
 
     proc underline_off {} {
         variable _ESC
-        write [$_ESC]
+        write $_ESC
         write [char 45]
         write [char 0]
     }
     
     proc underline_on {} {
         variable _ESC
-        write [$_ESC]
+        write $_ESC
         write [char 45]
         write [char 1]
     }
@@ -95,14 +95,14 @@ namespace eval ::chores::printer {
 
     proc upsidedown_off {} {
         variable _ESC
-        write [$_ESC]
+        write $_ESC
         write [char 123]
         write [char 0]
     }
     
     proc upsidedown_on {} {
         variable _ESC
-        write [$_ESC]
+        write $_ESC
         write [char 123]
         write [char 1]
     }
