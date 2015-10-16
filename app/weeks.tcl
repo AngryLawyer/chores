@@ -21,4 +21,8 @@ namespace eval ::chores::weeks {
     proc get_day_of_week_number {current_date} {
         expr {[clock format $current_date -format "%u"] - 1}
     }
+
+    proc get_date {current_date} {
+        clock format $current_date -format "%d/%m/%Y"
+    }
 }
