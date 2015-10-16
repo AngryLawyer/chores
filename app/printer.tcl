@@ -2,6 +2,7 @@ namespace eval ::chores::printer {
     variable SERIALPORT /dev/ttyAMA0
     variable BAUDRATE 19200
     variable TIMEOUT 3
+    variable serial
 
     variable _ESC [format %c 27]
     
@@ -10,8 +11,8 @@ namespace eval ::chores::printer {
     }
 
     proc write {data} {
-        #DO SOMETHING
-        puts $data
+        variable serial
+        puts -nonewline $serial $data
     }
 
     proc reset {} {
@@ -135,7 +136,12 @@ namespace eval ::chores::printer {
         variable SERIALPORT
         variable BAUDRATE
         variable TIMEOUT
+        variable serial
         variable _ESC
+
+        set serial [open $SERIALPORT w]
+        fconfigure $serial -blocking 0 -mode $BAUDRATE,n,8,1
+        
 
         write $_ESC
         write [char 64]
@@ -149,5 +155,10 @@ namespace eval ::chores::printer {
         write [char 35]
 
         write [char 255]
+    }
+
+    proc shutdown {} {
+        variable serial
+        close $serial
     }
 }
