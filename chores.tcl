@@ -1,4 +1,4 @@
-source mug_autoloader.tcl
+source [file join [file dirname [info script]] mug_autoloader.tcl]
 
 package require tanzer
 package require tanzer::file::handler
@@ -7,7 +7,7 @@ package require underscore
 
 source [file join [file dirname [info script]] app/chores.tcl]
 
-::chores::templater::init
+::chores::templater::init [file dirname [info script]]
 
 set port 8081
 set database {}
@@ -93,7 +93,7 @@ $server route GET|POST /new/ {.*} apply {
 
 # Static file service
 $server route GET /* {.*} [::tanzer::file::handler new [list \
-    root ./static \
+    root [file join [file dirname [info script]] ./static] \
 ]]
 
 $server listen $port

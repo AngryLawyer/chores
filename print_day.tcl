@@ -1,4 +1,4 @@
-source mug_autoloader.tcl
+source [file join [file dirname [info script]] mug_autoloader.tcl]
 
 package require underscore
 
